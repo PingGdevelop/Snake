@@ -1,4 +1,4 @@
-local SceneManager = require("module.SceneManager")
+SceneManager = require("module.SceneManager")
 local GameScene = require("Scene.GameScene")
 local MenuScene = require("Scene.MenuScene")
 

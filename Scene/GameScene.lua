@@ -2,7 +2,7 @@ local GameScene = {
     CELL = 15,
     COLS = 20,
     ROWS = 20,
-    TICK = 0.12
+    TICK = 0.2
 }
 
 local snake, dir, nextDir, food, timer, score, state, highScore
@@ -50,7 +50,7 @@ local function reset()
     placeFood()
 end
 
-function GameScene:load()
+function GameScene:enter()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setBackgroundColor(0.608, 0.737, 0.059)
     loadHighScore()
@@ -124,7 +124,7 @@ function GameScene:draw()
     for i, s in ipairs(snake) do
         love.graphics.setColor(0.18, 0.24, 0.02)
         local sx = ox + (s[1]-1)*GameScene.CELL
-        local sy = ox + (s[2]-1)*GameScene.CELL
+        local sy = oy + (s[2]-1)*GameScene.CELL
         love.graphics.rectangle("fill", sx + 1, sy + 1, GameScene.CELL - 1, GameScene.CELL - 1)
         if i == 1 then
             love.graphics.setColor(0.557, 0.694, 0.051)
