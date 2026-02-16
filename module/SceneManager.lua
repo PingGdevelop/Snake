@@ -1,10 +1,30 @@
 local SceneManager = {
-    current = nil
+    current = nil,
+    scenes = {}
 }
 
-function SceneManager.load(scene)
-    SceneManager.current = scene
-    if scene.load then scene:load() end
+function SceneManager:addScene(name, scene)
+    self.scenes[name] = scene
+end
+
+function SceneManager:load(sceneName)
+    local scene = self.scenes[sceneName]
+    if scene then
+        SceneManager.current = scene
+        if scene.load then scene:load() end
+        if scene.enter then scene:enter() end
+    end
+end
+
+function SceneManager:switch(sceneName)
+    local scene = self.scenes[sceneName]
+    if scene and SceneManager.current ~= scene then
+        if SceneManager.current and SceneManager.current.exit then
+            SceneManager.current:exit()
+        end
+        SceneManager.current = scene
+        if scene.enter then scene:enter() end
+    end
 end
 
 function SceneManager.update(dt)

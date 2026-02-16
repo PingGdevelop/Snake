@@ -5,7 +5,23 @@ local GameScene = {
     TICK = 0.12
 }
 
-local snake, dir, nextDir, food, timer, score, state
+local snake, dir, nextDir, food, timer, score, state, highScore
+
+local function loadHighScore()
+    if love.filesystem.getInfo("highscore.txt") then
+        local data = love.filesystem.read("highscore.txt")
+        highScore = tonumber(data) or 0
+    else
+        highScore = 0
+    end
+end
+
+local function saveHighScore()
+    if score > highScore then
+        highScore = score
+        love.filesystem.write("highscore.txt", tostring(highScore))
+    end
+end
 
 local function placeFood()
     local free = {}
@@ -37,6 +53,7 @@ end
 function GameScene:load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setBackgroundColor(0.608, 0.737, 0.059)
+    loadHighScore()
     reset()
 end
 
@@ -62,11 +79,15 @@ function GameScene:update(dt)
     local head = {snake[1][1] + dir[1], snake[1][2] + dir[2]}
 
     if head[1] < 1 or head[1] > GameScene.COLS or head[2] < 1 or head[2] > GameScene.ROWS then
-        state = "dead"; return
+        state = "dead"
+        saveHighScore()
+        return
     end
     for i = 1, #snake do
         if snake[i][1] == head[1] and snake[i][2] == head[2] then
-            state = "dead"; return
+            state = "dead"
+            saveHighScore()
+            return
         end
     end
 

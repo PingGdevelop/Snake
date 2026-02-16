@@ -1,8 +1,11 @@
 local SceneManager = require("module.SceneManager")
 local GameScene = require("Scene.GameScene")
+local MenuScene = require("Scene.MenuScene")
 
 function love.load()
-    SceneManager.load(GameScene)
+    SceneManager:addScene("GameScene", GameScene)
+    SceneManager:addScene("MenuScene", MenuScene)
+    SceneManager:load("MenuScene")
 end
 
 function love.update(dt)
