@@ -14,14 +14,17 @@ function MenuScene:draw()
     local width = love.graphics.getWidth()
     local height = love.graphics.getHeight()
     
+    -- Match gameplay background color
+    love.graphics.setBackgroundColor(0.608, 0.737, 0.059)
+    
     -- Draw title
     love.graphics.setFont(love.graphics.newFont(48))
-    love.graphics.setColor(0.1, 0.8, 0.2) -- Green color for snake theme
+    love.graphics.setColor(0.18, 0.24, 0.02) -- Match snake body color
     love.graphics.printf("SNAKE", 0, height * 0.2, width, "center")
     
     -- Draw high score
     love.graphics.setFont(love.graphics.newFont(24))
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(0.18, 0.24, 0.02)
     local highScore = love.filesystem.read("highscore.txt") or "0"
     love.graphics.printf("High Score: " .. highScore, 0, height * 0.35, width, "center")
     
@@ -31,10 +34,10 @@ function MenuScene:draw()
         local yPos = height * 0.5 + (i - 1) * 60
         
         if i == selectedOption then
-            love.graphics.setColor(0.1, 0.8, 0.2)
+            love.graphics.setColor(0.18, 0.24, 0.02)
             love.graphics.printf("> " .. option .. " <", 0, yPos, width, "center")
         else
-            love.graphics.setColor(0.5, 0.5, 0.5)
+            love.graphics.setColor(0.557, 0.694, 0.051) -- Match lighter green from gameplay
             love.graphics.printf(option, 0, yPos, width, "center")
         end
     end
@@ -43,7 +46,7 @@ function MenuScene:draw()
     love.graphics.setColor(1, 1, 1)
 end
 
-function MenuScene:keyPressed(key)
+function MenuScene:keypressed(key)
     if key == "up" then
         selectedOption = selectedOption - 1
         if selectedOption < 1 then
