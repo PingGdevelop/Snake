@@ -2,9 +2,16 @@ local MenuScene = {}
 
 local selectedOption = 1
 local options = {"Play", "Quit"}
+local fonts = {}
 
 function MenuScene:enter()
     selectedOption = 1
+    -- Pre-create fonts at native resolution
+    if not fonts.title then
+        fonts.title = love.graphics.newFont("Assets/font.ttf", 48)
+        fonts.small = love.graphics.newFont("Assets/font.ttf", 20)
+        fonts.menu = love.graphics.newFont("Assets/font.ttf", 32)
+    end
 end
 
 function MenuScene:update(dt)
@@ -18,26 +25,26 @@ function MenuScene:draw()
     love.graphics.setBackgroundColor(0.608, 0.737, 0.059)
     
     -- Draw title
-    love.graphics.setFont(love.graphics.newFont(48))
-    love.graphics.setColor(0.18, 0.24, 0.02) -- Match snake body color
+    love.graphics.setFont(fonts.title)
+    love.graphics.setColor(0.18, 0.24, 0.02)
     love.graphics.printf("SNAKE", 0, height * 0.2, width, "center")
     
     -- Draw high score
-    love.graphics.setFont(love.graphics.newFont(24))
+    love.graphics.setFont(fonts.small)
     love.graphics.setColor(0.18, 0.24, 0.02)
     local highScore = love.filesystem.read("highscore.txt") or "0"
-    love.graphics.printf("High Score: " .. highScore, 0, height * 0.35, width, "center")
+    love.graphics.printf("HI-SCORE: " .. highScore, 0, height * 0.38, width, "center")
     
     -- Draw menu options
-    love.graphics.setFont(love.graphics.newFont(32))
+    love.graphics.setFont(fonts.menu)
     for i, option in ipairs(options) do
-        local yPos = height * 0.5 + (i - 1) * 60
+        local yPos = height * 0.55 + (i - 1) * 50
         
         if i == selectedOption then
             love.graphics.setColor(0.18, 0.24, 0.02)
             love.graphics.printf("> " .. option .. " <", 0, yPos, width, "center")
         else
-            love.graphics.setColor(0.557, 0.694, 0.051) -- Match lighter green from gameplay
+            love.graphics.setColor(0.557, 0.694, 0.051)
             love.graphics.printf(option, 0, yPos, width, "center")
         end
     end

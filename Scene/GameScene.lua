@@ -5,7 +5,7 @@ local GameScene = {
     TICK = 0.2
 }
 
-local snake, dir, nextDir, food, timer, score, state, highScore
+local snake, dir, nextDir, food, timer, score, state, highScore, font, bigFont
 
 local function loadHighScore()
     if love.filesystem.getInfo("highscore.txt") then
@@ -55,6 +55,10 @@ function GameScene:enter()
     love.graphics.setBackgroundColor(0.608, 0.737, 0.059)
     loadHighScore()
     reset()
+    if not font then
+        font = love.graphics.newFont("Assets/font.ttf", 14)
+        bigFont = love.graphics.newFont("Assets/font.ttf", 24)
+    end
 end
 
 function GameScene:keypressed(key)
@@ -139,11 +143,13 @@ function GameScene:draw()
     end
 
     love.graphics.setColor(0.18, 0.24, 0.02)
-    love.graphics.print("Score: " .. score, 4, GameScene.ROWS * GameScene.CELL + 2)
+    love.graphics.setFont(font)
+    love.graphics.print("SCORE: " .. score, 4, GameScene.ROWS * GameScene.CELL - 20)
 
     if state == "dead" then
+        love.graphics.setFont(bigFont)
         love.graphics.setColor(0.18, 0.24, 0.02)
-        love.graphics.printf("GAME OVER\nPress Enter", 0, 120, 300, "center")
+        love.graphics.printf("GAME OVER\nPRESS ENTER", 0, 100, 300, "center")
     end
 end
 
